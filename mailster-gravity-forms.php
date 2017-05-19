@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Mailster Gravity Forms
-Version: 1.0
+Version: 1.0.1
 Plugin URI: http://rxa.li/mailster?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon
 License: GPLv2
 Author: revaxarts.com
@@ -93,8 +93,9 @@ class MailsterGravitiyForm {
 
 		$double_opt_in = isset( $form['mailster']['double-opt-in'] );
 		$overwrite = true;
+		$mergelists = null;
 
-		mailster_subscribe( $email, $userdata, $lists, $double_opt_in, $overwrite, $mergelists, $template );
+		mailster_subscribe( $email, $userdata, $lists, $double_opt_in, $overwrite, $mergelists );
 
 	}
 
