@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Mailster Gravity Forms
-Version: 1.0.1
+Version: 1.0.2
 Plugin URI: http://rxa.li/mailster?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon
 License: GPLv2
 Author: revaxarts.com
@@ -76,9 +76,6 @@ class MailsterGravitiyForm {
 				if ( ! isset( $entry[ $form['mailster']['conditional_field'] ] ) ) { return; }
 			}
 		}
-
-		$mailsterforms = mailster_option( 'forms' );
-		$mailsterform = isset( $mailsterforms[ $form['mailster']['form_id'] ] ) ? $mailsterforms[ $form['mailster']['form_id'] ] : $mailsterforms[0];
 
 		$userdata = array();
 		foreach ( $form['mailster']['map'] as $field_id => $key ) {
