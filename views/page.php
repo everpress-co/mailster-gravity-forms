@@ -20,7 +20,7 @@
 
 if ( ! function_exists( 'mailster' ) ) {
 
-	echo '<h3>Please enable the <a href="http://rxa.li/mailster?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon">Mailster Newsletter Plugin</a></h3>';
+	echo '<h3>Please enable the <a href="https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon">Mailster Newsletter Plugin</a></h3>';
 
 	return;
 }

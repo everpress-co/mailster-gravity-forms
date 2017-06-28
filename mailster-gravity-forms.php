@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Mailster Gravity Forms
+Plugin URI: https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon
 Version: 1.0.2
-Plugin URI: http://rxa.li/mailster?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon
 License: GPLv2
-Author: revaxarts.com
+Author: EverPress
 Author URI: https://mailster.co
 Text Domain: mailster-gravityforms
 Description: Integrates Mailster Newsletter Plugin with Gravity Forms to subscribe users with a Gravity Form.
