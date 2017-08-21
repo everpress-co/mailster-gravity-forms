@@ -2,7 +2,7 @@
 /*
 Plugin Name: Mailster Gravity Forms
 Plugin URI: https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon
-Version: 1.0.2
+Version: 1.0.3
 License: GPLv2
 Author: EverPress
 Author URI: https://mailster.co
@@ -24,7 +24,7 @@ class MailsterGravitiyForm {
 		register_activation_hook( __FILE__, array( &$this, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( &$this, 'deactivate' ) );
 
-		load_plugin_textdomain( 'mailster-gravityforms', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
+		load_plugin_textdomain( 'mailster-gravityforms' );
 
 		add_action( 'init', array( &$this, 'init' ) );
 
@@ -79,20 +79,27 @@ class MailsterGravitiyForm {
 
 		$userdata = array();
 		foreach ( $form['mailster']['map'] as $field_id => $key ) {
-			if ( $key == 'email' ) {
-				$email = $entry[ $field_id ];
-			} elseif ( $key != -1 ) {
+			if ( $key != -1 ) {
 				$userdata[ $key ] = $entry[ $field_id ];
 			}
 		}
 
-		$lists = $form['mailster']['lists'];
+		if ( ! isset( $userdata['email'] ) ) { return; }
 
-		$double_opt_in = isset( $form['mailster']['double-opt-in'] );
+		$list_ids = $form['mailster']['lists'];
+
+		if ( $subscriber = mailster( 'subscribers' )->get_by_mail( $userdata['email'] ) ) {
+		} else {
+			$userdata['status'] = isset( $form['mailster']['double-opt-in'] ) ? 0 : 1;
+		}
+
 		$overwrite = true;
-		$mergelists = null;
+		$merge = true;
+		$subscriber_id = mailster( 'subscribers' )->add( $userdata, $overwrite, $merge );
 
-		mailster_subscribe( $email, $userdata, $lists, $double_opt_in, $overwrite, $mergelists );
+		if ( ! is_wp_error( $subscriber_id ) ) {
+			mailster( 'subscribers' )->assign_lists( $subscriber_id, $list_ids );
+		}
 
 	}
 
