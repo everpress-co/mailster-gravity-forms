@@ -27,7 +27,7 @@ if ( ! function_exists( 'mailster' ) ) {
 
 	$form_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : null;
 	$form = RGFormsModel::get_form_meta( $form_id );
-	$mailster = isset( $form['mailster'] ) ? $form['mailster'] : array( 'lists' => array() );
+	$mailster = isset( $form['mailster'] ) ? $form['mailster'] : array( 'lists' => array(), 'map' => array() );
 
 ?>
 <div class="gform_panel gform_panel_mailster_settings" id="mailster_settings">
@@ -73,7 +73,7 @@ if ( ! function_exists( 'mailster' ) ) {
 								echo '<li><label>' . $input['label'] . '</label> ➨ <select name="mailster[map][' . $input['id'] . ']" >';
 									echo '<option value="-1">' . __( 'not mapped', 'mailster-gravityforms' ) . '</option>';
 								foreach ( $fields as $id => $name ) {
-									echo '<option value="' . $id . '" ' . selected( $id, $mailster['map'][ $input['id'] . '' ], false ) . '>' . $name . '</option>';
+									echo '<option value="' . $id . '" ' . selected( $id, @$mailster['map'][ $input['id'] . '' ], false ) . '>' . $name . '</option>';
 								}
 								echo '</select></li>';
 							}
@@ -84,7 +84,7 @@ if ( ! function_exists( 'mailster' ) ) {
 							echo '<li> <label><strong>' . $field['label'] . '</strong></label> ➨ <select name="mailster[map][' . $field['id'] . ']">';
 								echo '<option value="-1">' . __( 'not mapped', 'mailster-gravityforms' ) . '</option>';
 							foreach ( $fields as $id => $name ) {
-								echo '<option value="' . $id . '" ' . selected( $id, $mailster['map'][ $field['id'] . '' ], false ) . '>' . $name . '</option>';
+								echo '<option value="' . $id . '" ' . selected( $id, @$mailster['map'][ $field['id'] . '' ], false ) . '>' . $name . '</option>';
 							}
 							echo '</select></li>';
 						}

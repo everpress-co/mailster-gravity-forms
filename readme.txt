@@ -3,7 +3,7 @@ Contributors: everpress, revaxarts
 Tags: mailster, newsletter, mailing list, email marketing, newsletters
 Requires at least: 3.8
 Tested up to: 4.8
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 Author: EverPress
 Author URI: https://mailster.co
@@ -29,6 +29,9 @@ You need <a href="https://www.gravityforms.com/">Gravity Forms Plugin</a> and th
 2. Basic Gravity Form Example
 
 == Changelog ==
+
+= 1.0.4 =
+* support for Mailster 2.3
 
 = 1.0.3 =
 

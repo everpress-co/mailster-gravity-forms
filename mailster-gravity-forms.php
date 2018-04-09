@@ -2,7 +2,7 @@
 /*
 Plugin Name: Mailster Gravity Forms
 Plugin URI: https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon
-Version: 1.0.3
+Version: 1.0.4
 License: GPLv2
 Author: EverPress
 Author URI: https://mailster.co
@@ -98,7 +98,7 @@ class MailsterGravitiyForm {
 		$subscriber_id = mailster( 'subscribers' )->add( $userdata, $overwrite, $merge );
 
 		if ( ! is_wp_error( $subscriber_id ) ) {
-			mailster( 'subscribers' )->assign_lists( $subscriber_id, $list_ids );
+			mailster( 'subscribers' )->assign_lists( $subscriber_id, $list_ids, false, $userdata['status'] ? true : false );
 		}
 
 	}
