@@ -2,7 +2,7 @@
 Contributors: everpress, revaxarts
 Tags: mailster, newsletter, mailing list, email marketing, newsletters
 Requires at least: 3.8
-Tested up to: 4.8
+Tested up to: 5.0
 Stable tag: 1.0.4
 License: GPLv2 or later
 Author: EverPress
