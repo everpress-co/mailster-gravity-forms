@@ -2,7 +2,7 @@
 /*
 Plugin Name: Mailster Gravity Forms
 Plugin URI: https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon
-Version: 1.0.4
+Version: 1.1
 License: GPLv2
 Author: EverPress
 Author URI: https://mailster.co
@@ -78,15 +78,26 @@ class MailsterGravitiyForm {
 		}
 
 		$userdata = array();
+		$list_ids = isset( $form['mailster']['lists'] ) ? (array) $form['mailster']['lists'] : array();
+
 		foreach ( $form['mailster']['map'] as $field_id => $key ) {
-			if ( $key != -1 ) {
+			if ( '_list' == $key ) {
+				$listname = $entry[ $field_id ];
+				if ( empty( $listname ) ) {
+					continue;
+				}
+				$list_id = mailster( 'lists' )->get_by_name( $listname, 'ID' );
+				if ( ! $list_id ) {
+					$list_ids[] = mailster( 'lists' )->add( $listname, true );
+				} else {
+					$list_ids[] = $list_id;
+				}
+			} elseif ( $key != -1 ) {
 				$userdata[ $key ] = $entry[ $field_id ];
 			}
 		}
 
 		if ( ! isset( $userdata['email'] ) ) { return; }
-
-		$list_ids = $form['mailster']['lists'];
 
 		if ( $subscriber = mailster( 'subscribers' )->get_by_mail( $userdata['email'] ) ) {
 		} else {
@@ -148,7 +159,7 @@ class MailsterGravitiyForm {
 			$form['mailster']['conditional_id'] = array_shift( $conditional );
 		}
 
-		$form['mailster']['conditional_field'] = implode( '|',$conditional );
+		$form['mailster']['conditional_field'] = implode( '|', $conditional );
 
 		RGFormsModel::update_form_meta( $form_id, $form );
 
