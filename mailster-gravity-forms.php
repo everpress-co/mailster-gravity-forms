@@ -12,7 +12,7 @@ Requires the Mailster Newsletter Plugin and the Gravity Forms plugin
 */
 
 define( 'MAILSTER_GRAVITYFORMS_VERSION', '1.1' );
-define( 'MAILSTER_GRAVITYFORMS_REQUIRED_VERSION', '2.3' );
+define( 'MAILSTER_GRAVITYFORMS_REQUIRED_VERSION', '2.4' );
 define( 'MAILSTER_GRAVITYFORMS_FILE', __FILE__ );
 
 require_once dirname( __FILE__ ) . '/classes/gravity.class.php';

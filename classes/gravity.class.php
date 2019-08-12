@@ -8,7 +8,7 @@ class MailsterGravitiyForm {
 	public function __construct() {
 
 		$this->plugin_path = plugin_dir_path( MAILSTER_GRAVITYFORMS_FILE );
-		$this->plugin_url = plugin_dir_url( MAILSTER_GRAVITYFORMS_FILE );
+		$this->plugin_url  = plugin_dir_url( MAILSTER_GRAVITYFORMS_FILE );
 
 		register_activation_hook( MAILSTER_GRAVITYFORMS_FILE, array( &$this, 'activate' ) );
 		register_deactivation_hook( MAILSTER_GRAVITYFORMS_FILE, array( &$this, 'deactivate' ) );
@@ -41,13 +41,16 @@ class MailsterGravitiyForm {
 	public function after_submission( $entry, $form ) {
 
 		// Mailster doesn't exists.
-		if ( ! function_exists( 'mailster' ) ) { return; }
+		if ( ! function_exists( 'mailster' ) ) {
+			return; }
 
 		// Mailster options are not defined.
-		if ( ! isset( $form['mailster'] ) ) { return; }
+		if ( ! isset( $form['mailster'] ) ) {
+			return; }
 
 		// form not active.
-		if ( ! isset( $form['mailster']['active'] ) ) { return; }
+		if ( ! isset( $form['mailster']['active'] ) ) {
+			return; }
 
 		// condition check matches.
 		if ( isset( $form['mailster']['conditional'] ) ) {
@@ -55,14 +58,18 @@ class MailsterGravitiyForm {
 			// radio button.
 			if ( isset( $form['mailster']['conditional_id'] ) ) {
 
-				if ( isset( $entry[ $form['mailster']['conditional_id'] ] ) && ($entry[ $form['mailster']['conditional_id'] ] != $form['mailster']['conditional_field']) ) { return; }
-				if ( ! isset( $entry[ $form['mailster']['conditional_id'] ] ) ) { return; }
+				if ( isset( $entry[ $form['mailster']['conditional_id'] ] ) && ( $entry[ $form['mailster']['conditional_id'] ] != $form['mailster']['conditional_field'] ) ) {
+					return; }
+				if ( ! isset( $entry[ $form['mailster']['conditional_id'] ] ) ) {
+					return; }
 
 				// checkbox.
 			} else {
 
-				if ( isset( $entry[ $form['mailster']['conditional_field'] ] ) && empty( $entry[ $form['mailster']['conditional_field'] ] ) ) { return; }
-				if ( ! isset( $entry[ $form['mailster']['conditional_field'] ] ) ) { return; }
+				if ( isset( $entry[ $form['mailster']['conditional_field'] ] ) && empty( $entry[ $form['mailster']['conditional_field'] ] ) ) {
+					return; }
+				if ( ! isset( $entry[ $form['mailster']['conditional_field'] ] ) ) {
+					return; }
 			}
 		}
 
@@ -86,15 +93,16 @@ class MailsterGravitiyForm {
 			}
 		}
 
-		if ( ! isset( $userdata['email'] ) ) { return; }
+		if ( ! isset( $userdata['email'] ) ) {
+			return; }
 
 		if ( $subscriber = mailster( 'subscribers' )->get_by_mail( $userdata['email'] ) ) {
 		} else {
 			$userdata['status'] = isset( $form['mailster']['double-opt-in'] ) ? 0 : 1;
 		}
 
-		$overwrite = true;
-		$merge = true;
+		$overwrite     = true;
+		$merge         = true;
 		$subscriber_id = mailster( 'subscribers' )->add( $userdata, $overwrite, $merge );
 
 		if ( ! is_wp_error( $subscriber_id ) ) {
@@ -123,7 +131,7 @@ class MailsterGravitiyForm {
 	public function settings_menu( $settings_tabs, $form_id ) {
 
 		$settings_tabs[] = array(
-			'name' => 'mailster',
+			'name'  => 'mailster',
 			'label' => 'Mailster',
 		);
 		return $settings_tabs;
@@ -131,18 +139,22 @@ class MailsterGravitiyForm {
 
 	public function save() {
 
-		if ( ! current_user_can( 'manage_options' ) ) { return; }
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return; }
 
-		if ( ! isset( $_POST['gform_save_form_settings'] ) || ! wp_verify_nonce( $_POST['gform_save_form_settings'], 'mailster_gf_save_form' ) ) { return; }
+		if ( ! isset( $_POST['gform_save_form_settings'] ) || ! wp_verify_nonce( $_POST['gform_save_form_settings'], 'mailster_gf_save_form' ) ) {
+			return; }
 
 		$form_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : null;
-		if ( ! $form_id ) { return; }
+		if ( ! $form_id ) {
+			return; }
 
 		$form = RGFormsModel::get_form_meta( $form_id );
-		if ( ! $form ) { return; }
+		if ( ! $form ) {
+			return; }
 
 		$form['mailster'] = $_POST['mailster'];
-		$conditional = explode( '|', $form['mailster']['conditional_field'] );
+		$conditional      = explode( '|', $form['mailster']['conditional_field'] );
 
 		if ( count( $conditional ) > 1 ) {
 			$form['mailster']['conditional_id'] = array_shift( $conditional );

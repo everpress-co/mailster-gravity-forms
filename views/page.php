@@ -25,39 +25,39 @@ if ( ! function_exists( 'mailster' ) ) {
 	return;
 }
 
-	$form_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : null;
-	$form = RGFormsModel::get_form_meta( $form_id );
+	$form_id  = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : null;
+	$form     = RGFormsModel::get_form_meta( $form_id );
 	$mailster = isset( $form['mailster'] ) ? $form['mailster'] : array(
-		'lists' => array(),
-		'map' => array(),
+		'lists'             => array(),
+		'map'               => array(),
 		'conditional_field' => null,
 	);
 
-?>
+	?>
 <div class="gform_panel gform_panel_mailster_settings" id="mailster_settings">
 
-		<h3><span><?php esc_html_e( 'Mailster Settings', 'mailster-gravityforms' ) ?></span></h3>
+		<h3><span><?php esc_html_e( 'Mailster Settings', 'mailster-gravityforms' ); ?></span></h3>
 
 		<form action="" method="post" id="gform_form_settings">
 
 		<table class="gforms_form_settings" cellspacing="0" cellpadding="0">
 			<tr>
 				<th></th>
-				<td><label><input type="checkbox" name="mailster[active]" value="1" <?php checked( isset( $mailster['active'] ) ) ?>> <?php esc_html_e( 'Enable Mailster for this Form', 'mailster-gravityforms' ) ?></label>
+				<td><label><input type="checkbox" name="mailster[active]" value="1" <?php checked( isset( $mailster['active'] ) ); ?>> <?php esc_html_e( 'Enable Mailster for this Form', 'mailster-gravityforms' ); ?></label>
 				</td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'Map Fields', 'mailster-gravityforms' ) ?></th>
+				<th><?php esc_html_e( 'Map Fields', 'mailster-gravityforms' ); ?></th>
 				<td>
 				<p class="description">
-					<?php esc_html_e( 'Define which field represents which value from your Mailster settings.', 'mailster-gravityforms' ) ?><br>
-					<?php esc_html_e( 'Mailster can create lists if certain fields are checked or not empty.', 'mailster-gravityforms' ) ?>
+					<?php esc_html_e( 'Define which field represents which value from your Mailster settings.', 'mailster-gravityforms' ); ?><br>
+					<?php esc_html_e( 'Mailster can create lists if certain fields are checked or not empty.', 'mailster-gravityforms' ); ?>
 				</p>
 				<?php
 				$fields = array(
-					'email' => mailster_text( 'email' ),
+					'email'     => mailster_text( 'email' ),
 					'firstname' => mailster_text( 'firstname' ),
-					'lastname' => mailster_text( 'lastname' ),
+					'lastname'  => mailster_text( 'lastname' ),
 				);
 
 				if ( $customfields = mailster()->get_custom_fields() ) {
@@ -74,7 +74,7 @@ if ( ! function_exists( 'mailster' ) ) {
 					echo '<ul id="mailster-map">';
 					foreach ( $form['fields'] as $field ) {
 						if ( isset( $field['inputs'] ) && is_array( $field['inputs'] ) ) {
-							echo '<li><strong>' . ( ! empty( $field['label'] ) ? $field['label'] : esc_html__( 'Untitled', 'mailster-gravityforms' )) . ':</strong><ul>';
+							echo '<li><strong>' . ( ! empty( $field['label'] ) ? $field['label'] : esc_html__( 'Untitled', 'mailster-gravityforms' ) ) . ':</strong><ul>';
 
 							foreach ( $field['inputs'] as $input ) {
 								echo '<li><label>' . $input['label'] . '</label> ➨ <select name="mailster[map][' . $input['id'] . ']" >';
@@ -116,25 +116,25 @@ if ( ! function_exists( 'mailster' ) ) {
 				</td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'Subscribe new users to', 'mailster-gravityforms' ) ?></th>
+				<th><?php esc_html_e( 'Subscribe new users to', 'mailster-gravityforms' ); ?></th>
 				<td>
 				<?php
-				$selected = isset( $mailster['lists'] ) ? $mailster['lists'] : array();
+				$selected                                        = isset( $mailster['lists'] ) ? $mailster['lists'] : array();
 				mailster( 'lists' )->print_it( null, null, $name = 'mailster[lists]', false, $selected );
 				?>
 				</td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'Double Opt In', 'mailster-gravityforms' ) ?></th>
-				<td><label><input type="checkbox" name="mailster[double-opt-in]" value="1" <?php checked( isset( $mailster['double-opt-in'] ) ) ?>> <?php esc_html_e( 'Users have to confirm their subscription', 'mailster-gravityforms' ) ?></label><br>
+				<th><?php esc_html_e( 'Double Opt In', 'mailster-gravityforms' ); ?></th>
+				<td><label><input type="checkbox" name="mailster[double-opt-in]" value="1" <?php checked( isset( $mailster['double-opt-in'] ) ); ?>> <?php esc_html_e( 'Users have to confirm their subscription', 'mailster-gravityforms' ); ?></label><br>
 
 				</td>
 			</tr>
 
 			<tr>
-				<th><?php esc_html_e( 'Conditional check', 'mailster-gravityforms' ) ?></th>
-				<td><label><input type="checkbox" name="mailster[conditional]" value="1" <?php checked( isset( $mailster['conditional'] ) ) ?>> <?php esc_html_e( 'Enable Conditional check', 'mailster-gravityforms' ) ?></label>
-				<p><?php esc_html_e( 'subscribe user only if', 'mailster-gravityforms' ) ?>
+				<th><?php esc_html_e( 'Conditional check', 'mailster-gravityforms' ); ?></th>
+				<td><label><input type="checkbox" name="mailster[conditional]" value="1" <?php checked( isset( $mailster['conditional'] ) ); ?>> <?php esc_html_e( 'Enable Conditional check', 'mailster-gravityforms' ); ?></label>
+				<p><?php esc_html_e( 'subscribe user only if', 'mailster-gravityforms' ); ?>
 				<?php
 				if ( is_array( $form['fields'] ) ) {
 					echo '<select name="mailster[conditional_field]"><option value="-1">-</option>';
@@ -144,7 +144,7 @@ if ( ! function_exists( 'mailster' ) ) {
 						}
 
 						if ( isset( $field['inputs'] ) && is_array( $field['inputs'] ) ) {
-							echo '<optgroup label="' . ($field['label'] ? $field['label'] : esc_html__( 'Checkbox', 'mailster-gravityforms' )) . '">';
+							echo '<optgroup label="' . ( $field['label'] ? $field['label'] : esc_html__( 'Checkbox', 'mailster-gravityforms' ) ) . '">';
 							foreach ( $field['inputs'] as $input ) {
 								echo '<option value="' . $input['id'] . '" ' . selected( $input['id'], $mailster['conditional_field'], false ) . '>' . $input['label'] . '</option>'; }
 							echo '</optgroup>';
@@ -162,13 +162,13 @@ if ( ! function_exists( 'mailster' ) ) {
 					echo '</select>';
 				}
 				?>
-				<?php esc_html_e( 'is checked', 'mailster-gravityforms' ) ?></p>
+				<?php esc_html_e( 'is checked', 'mailster-gravityforms' ); ?></p>
 				</td>
 			</tr>
 		</table>
 		<?php wp_nonce_field( 'mailster_gf_save_form', 'gform_save_form_settings' ); ?>
 		<input type="hidden" id="gform_meta" name="gform_meta">
-		<input type="submit" id="gform_save_settings" name="gform_save_settings" value="<?php esc_html_e( 'Update Form Settings', 'mailster-gravityforms' ) ?>" class="button-primary gfbutton">
+		<input type="submit" id="gform_save_settings" name="gform_save_settings" value="<?php esc_html_e( 'Update Form Settings', 'mailster-gravityforms' ); ?>" class="button-primary gfbutton">
 
 		</form>
 
