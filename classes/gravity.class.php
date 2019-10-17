@@ -97,13 +97,15 @@ class MailsterGravitiyForm {
 			return; }
 
 		if ( $subscriber = mailster( 'subscribers' )->get_by_mail( $userdata['email'] ) ) {
+			$subscriber_notification = false;
 		} else {
-			$userdata['status'] = isset( $form['mailster']['double-opt-in'] ) ? 0 : 1;
+			$userdata['status']      = isset( $form['mailster']['double-opt-in'] ) ? 0 : 1;
+			$subscriber_notification = true;
 		}
 
 		$overwrite     = true;
 		$merge         = true;
-		$subscriber_id = mailster( 'subscribers' )->add( $userdata, $overwrite, $merge );
+		$subscriber_id = mailster( 'subscribers' )->add( $userdata, $overwrite, $merge, $subscriber_notification );
 
 		if ( ! is_wp_error( $subscriber_id ) ) {
 			mailster( 'subscribers' )->assign_lists( $subscriber_id, $list_ids, false, $userdata['status'] ? true : false );
