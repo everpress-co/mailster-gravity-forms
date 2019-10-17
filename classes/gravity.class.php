@@ -97,6 +97,7 @@ class MailsterGravitiyForm {
 			return; }
 
 		if ( $subscriber = mailster( 'subscribers' )->get_by_mail( $userdata['email'] ) ) {
+			$userdata['status']      = $subscriber->status;
 			$subscriber_notification = false;
 		} else {
 			$userdata['status']      = isset( $form['mailster']['double-opt-in'] ) ? 0 : 1;
