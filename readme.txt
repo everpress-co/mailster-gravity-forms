@@ -2,8 +2,8 @@
 Contributors: everpress
 Tags: mailster, newsletter, mailing list, email marketing, newsletters
 Requires at least: 3.8
-Tested up to: 5.2
-Stable tag: 1.1.1
+Tested up to: 5.3
+Stable tag: 1.1.2
 License: GPLv2 or later
 Author: EverPress
 Author URI: https://mailster.co
@@ -29,6 +29,10 @@ You need <a href="https://www.gravityforms.com/">Gravity Forms Plugin</a> and th
 2. Basic Gravity Form Example
 
 == Changelog ==
+
+= 1.1.2 =
+
+* fixed: resend confirmations on pending subscribers if form as been submitted.
 
 = 1.1.1 =
 

@@ -98,7 +98,7 @@ class MailsterGravitiyForm {
 
 		if ( $subscriber = mailster( 'subscribers' )->get_by_mail( $userdata['email'] ) ) {
 			$userdata['status']      = $subscriber->status;
-			$subscriber_notification = false;
+			$subscriber_notification = $subscriber->status == 0; // send again if not confirmed already,
 		} else {
 			$userdata['status']      = isset( $form['mailster']['double-opt-in'] ) ? 0 : 1;
 			$subscriber_notification = true;

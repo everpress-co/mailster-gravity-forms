@@ -2,7 +2,7 @@
 /*
 Plugin Name: Mailster Gravity Forms
 Plugin URI: https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon
-Version: 1.1.1
+Version: 1.1.2
 License: GPLv2
 Author: EverPress
 Author URI: https://mailster.co
@@ -11,7 +11,7 @@ Description: Integrates Mailster Newsletter Plugin with Gravity Forms to subscri
 Requires the Mailster Newsletter Plugin and the Gravity Forms plugin
 */
 
-define( 'MAILSTER_GRAVITYFORMS_VERSION', '1.1.1' );
+define( 'MAILSTER_GRAVITYFORMS_VERSION', '1.1.2' );
 define( 'MAILSTER_GRAVITYFORMS_REQUIRED_VERSION', '2.4' );
 define( 'MAILSTER_GRAVITYFORMS_FILE', __FILE__ );
 
