@@ -13,15 +13,18 @@ Author URI: https://mailster.co
 Integrates Mailster Newsletter Plugin with Gravity Forms to subscribe users with a Gravity Form.
 Requires the Mailster Newsletter plugin and the Gravity Forms plugin
 
+> This Plugin requires [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon&utm_medium=readme)
+
 == Installation ==
 
 1. Upload plugin files to your plugins folder, or install using WordPress' built-in Add New Plugin installer
 2. Activate the plugin
 
+
 == Frequently Asked Questions ==
 
 = What does the plugin require to work correctly? =
-You need <a href="https://www.gravityforms.com/">Gravity Forms Plugin</a> and the <a href="https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon">Mailster Newsletter Plugin</a>
+You need <a href="https://www.gravityforms.com/">Gravity Forms Plugin</a> and the <a href="https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon&utm_medium=readme&utm_medium=plugin">Mailster Newsletter Plugin</a>
 
 == Screenshots ==
 
