@@ -119,7 +119,7 @@ if ( ! function_exists( 'mailster' ) ) {
 				<th><?php esc_html_e( 'Subscribe new users to', 'mailster-gravityforms' ); ?></th>
 				<td>
 				<?php
-				$selected                                        = isset( $mailster['lists'] ) ? $mailster['lists'] : array();
+				$selected = isset( $mailster['lists'] ) ? $mailster['lists'] : array();
 				mailster( 'lists' )->print_it( null, null, $name = 'mailster[lists]', false, $selected );
 				?>
 				</td>
