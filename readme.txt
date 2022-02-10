@@ -3,7 +3,7 @@ Contributors: everpress
 Tags: mailster, newsletter, mailing list, email marketing, newsletters
 Requires at least: 3.8
 Tested up to: 5.9
-Stable tag: 1.1.2
+Stable tag: 2.0
 License: GPLv2 or later
 
 == Description ==
@@ -22,14 +22,17 @@ Requires the Mailster Newsletter plugin and the Gravity Forms plugin
 == Frequently Asked Questions ==
 
 = What does the plugin require to work correctly? =
-You need <a href="https://www.gravityforms.com/">Gravity Forms Plugin</a> and the <a href="https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon&utm_medium=readme&utm_medium=plugin">Mailster Newsletter Plugin</a>
+You need [Gravity Forms Plugin](https://rocketgenius.pxf.io/vnPQjW) and the [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon&utm_medium=readme)
 
 == Screenshots ==
 
 1. Form Settings
-2. Basic Gravity Form Example
 
 == Changelog ==
+
+= 2.0 =
+
+* update for Gravity forms 2.5
 
 = 1.1.2 =
 
