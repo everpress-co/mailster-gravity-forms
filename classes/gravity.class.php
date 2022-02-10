@@ -15,7 +15,7 @@ class MailsterGravitiyForm {
 
 		load_plugin_textdomain( 'mailster-gravityforms' );
 
-		add_action( 'init', array( &$this, 'init' ) );
+		add_action( 'plugins_loaded', array( &$this, 'init' ) );
 
 	}
 
@@ -42,15 +42,18 @@ class MailsterGravitiyForm {
 
 		// Mailster doesn't exists.
 		if ( ! function_exists( 'mailster' ) ) {
-			return; }
+			return;
+		}
 
 		// Mailster options are not defined.
 		if ( ! isset( $form['mailster'] ) ) {
-			return; }
+			return;
+		}
 
 		// form not active.
 		if ( ! isset( $form['mailster']['active'] ) ) {
-			return; }
+			return;
+		}
 
 		// condition check matches.
 		if ( isset( $form['mailster']['conditional'] ) ) {
@@ -59,17 +62,21 @@ class MailsterGravitiyForm {
 			if ( isset( $form['mailster']['conditional_id'] ) ) {
 
 				if ( isset( $entry[ $form['mailster']['conditional_id'] ] ) && ( $entry[ $form['mailster']['conditional_id'] ] != $form['mailster']['conditional_field'] ) ) {
-					return; }
+					return;
+				}
 				if ( ! isset( $entry[ $form['mailster']['conditional_id'] ] ) ) {
-					return; }
+					return;
+				}
 
 				// checkbox.
 			} else {
 
 				if ( isset( $entry[ $form['mailster']['conditional_field'] ] ) && empty( $entry[ $form['mailster']['conditional_field'] ] ) ) {
-					return; }
+					return;
+				}
 				if ( ! isset( $entry[ $form['mailster']['conditional_field'] ] ) ) {
-					return; }
+					return;
+				}
 			}
 		}
 
@@ -94,7 +101,8 @@ class MailsterGravitiyForm {
 		}
 
 		if ( ! isset( $userdata['email'] ) ) {
-			return; }
+			return;
+		}
 
 		if ( $subscriber = mailster( 'subscribers' )->get_by_mail( $userdata['email'] ) ) {
 			$userdata['status']      = $subscriber->status;
@@ -114,13 +122,6 @@ class MailsterGravitiyForm {
 
 	}
 
-
-	public function page() {
-
-		include $this->plugin_path . '/views/page.php';
-
-	}
-
 	public function settings_page() {
 
 		GFFormSettings::page_header();
@@ -128,14 +129,16 @@ class MailsterGravitiyForm {
 		include $this->plugin_path . '/views/page.php';
 
 		GFFormSettings::page_footer();
-
 	}
 
 	public function settings_menu( $settings_tabs, $form_id ) {
 
+		wp_enqueue_style( 'mailster-gravityforms-style', $this->plugin_url . 'assets/style.css', array(), MAILSTER_GRAVITYFORMS_VERSION );
+
 		$settings_tabs[] = array(
 			'name'  => 'mailster',
 			'label' => 'Mailster',
+			'icon'  => 'gform-icon--mailster',
 		);
 		return $settings_tabs;
 	}

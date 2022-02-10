@@ -1,21 +1,3 @@
-<style>
-#mailster-map li{
-	border-bottom: 1px solid #CCC;
-}
-#mailster-map li label{
-	display: inline-block;
-	width: 150px;
-}
-#mailster-map li label select{
-	display: inline-block;
-	width: 200px;
-}
-#mailster-map li ul li{
-	border-bottom: 0;
-	padding-left: 20px;
-}
-
-</style>
 <?php
 
 if ( ! function_exists( 'mailster' ) ) {
@@ -25,22 +7,24 @@ if ( ! function_exists( 'mailster' ) ) {
 	return;
 }
 
-	$form_id  = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : null;
-	$form     = RGFormsModel::get_form_meta( $form_id );
-	$mailster = isset( $form['mailster'] ) ? $form['mailster'] : array(
-		'lists'             => array(),
-		'map'               => array(),
-		'conditional_field' => null,
-	);
+$form_id  = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : null;
+$form     = RGFormsModel::get_form_meta( $form_id );
+$mailster = isset( $form['mailster'] ) ? $form['mailster'] : array(
+	'lists'             => array(),
+	'map'               => array(),
+	'conditional_field' => null,
+);
 
-	?>
-<div class="gform_panel gform_panel_mailster_settings" id="mailster_settings">
+?>
+<form action="" method="post" id="gform_form_settings">
 
-		<h3><span><?php esc_html_e( 'Mailster Settings', 'mailster-gravityforms' ); ?></span></h3>
+	<fieldset id="gform-settings-section-general-settings" class="gform-settings-panel gform-settings-panel--full gform-settings-panel--with-title">
+		<legend class="gform-settings-panel__title gform-settings-panel__title--header"><?php esc_html_e( 'Mailster Settings', 'mailster-gravityforms' ); ?></legend>
 
-		<form action="" method="post" id="gform_form_settings">
+	<div class="gform-settings-panel__content">
 
-		<table class="gforms_form_settings" cellspacing="0" cellpadding="0">
+		<div id="gform_setting_preventIP" class="gsttings-field">
+			<table class="gforms_form_settings" cellspacing="0" cellpadding="0">
 			<tr>
 				<th></th>
 				<td><label><input type="checkbox" name="mailster[active]" value="1" <?php checked( isset( $mailster['active'] ) ); ?>> <?php esc_html_e( 'Enable Mailster for this Form', 'mailster-gravityforms' ); ?></label>
@@ -168,9 +152,13 @@ if ( ! function_exists( 'mailster' ) ) {
 		</table>
 		<?php wp_nonce_field( 'mailster_gf_save_form', 'gform_save_form_settings' ); ?>
 		<input type="hidden" id="gform_meta" name="gform_meta">
-		<input type="submit" id="gform_save_settings" name="gform_save_settings" value="<?php esc_html_e( 'Update Form Settings', 'mailster-gravityforms' ); ?>" class="button-primary gfbutton">
+		</div>
+	</div>
 
-		</form>
+	</fieldset>
 
+	<div class="gform-settings-save-container">
+		<button type="submit" id="gform-settings-save" name="gform_save_settings" value="save" form="gform_form_settings" class="primary button large"><?php esc_html_e( 'Update Form Settings', 'mailster-gravityforms' ); ?> &nbsp;→</button>
+	</div>
 
-</div>
+</form>
