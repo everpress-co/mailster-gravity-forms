@@ -1,6 +1,6 @@
 # Mailster Gravity Forms
 
-Contributors: everpress  
+Contributors: everpress, xaverb  
 Tags: mailster, newsletter, mailing list, email marketing, newsletters  
 Requires at least: 3.8  
 Tested up to: 6.0  
@@ -12,7 +12,7 @@ License: GPLv2 or later
 Integrates Mailster Newsletter Plugin with Gravity Forms to subscribe users with a Gravity Form.
 Requires the Mailster Newsletter plugin and the Gravity Forms plugin
 
-> This Plugin requires [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon&utm_medium=readme)
+> This Plugin requires [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=wordpress.org&utm_medium=readme&utm_term=Gravity+Forms)
 
 ## Installation
 
@@ -23,7 +23,7 @@ Requires the Mailster Newsletter plugin and the Gravity Forms plugin
 
 ### What does the plugin require to work correctly?
 
-You need [Gravity Forms Plugin](https://rocketgenius.pxf.io/vnPQjW) and the [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon&utm_medium=readme)
+You need [Gravity Forms Plugin](https://rocketgenius.pxf.io/vnPQjW) and the [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=wordpress.org&utm_medium=readme&utm_term=Gravity+Forms)
 
 ## Screenshots
 

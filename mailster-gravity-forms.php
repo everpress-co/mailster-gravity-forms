@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Mailster Gravity Forms
-Plugin URI: https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon&utm_medium=plugin
+Plugin URI: https://mailster.co/?utm_campaign=wporg&utm_source=wordpress.org&utm_medium=plugin&utm_term=Gravity+Forms
 Version: 2.0
 License: GPLv2
 Author: EverPress
