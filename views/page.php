@@ -2,7 +2,7 @@
 
 if ( ! function_exists( 'mailster' ) ) {
 
-	echo '<h3>Please enable the <a href="https://mailster.co/?utm_campaign=wporg&utm_source=Gravity+Forms+Mailster+Addon&utm_medium=plugin">Mailster Newsletter Plugin</a></h3>';
+	echo '<h3>Please enable the <a href="https://mailster.co/?utm_campaign=wporg&utm_source=wordpress.org&utm_medium=plugin&utm_term=Gravity+Forms">Mailster Newsletter Plugin</a></h3>';
 
 	return;
 }
