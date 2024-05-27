@@ -1,10 +1,10 @@
 # Mailster Gravity Forms
 
-Contributors: everpress, xaverb  
+Contributors: everpress, mailster, xaverb  
 Tags: mailster, newsletter, mailing list, email marketing, newsletters  
-Requires at least: 3.8  
-Tested up to: 6.0  
-Stable tag: 2.0  
+Requires at least: 6.0  
+Tested up to: 6.5  
+Stable tag: 2.0.0  
 License: GPLv2 or later
 
 ## Description
@@ -33,39 +33,39 @@ You need [Gravity Forms Plugin](https://rocketgenius.pxf.io/vnPQjW) and the [Mai
 
 ## Changelog
 
-### 2.0
+### 2.0.0
 
--   update for Gravity forms 2.5
+- update for Gravity forms 2.5
 
 ### 1.1.2
 
--   fixed: resend confirmations on pending subscribers if form as been submitted.
+- fixed: resend confirmations on pending subscribers if form as been submitted.
 
 ### 1.1.1
 
--   fixed: prevent sending duplicate "new subscribers" notifications
+- fixed: prevent sending duplicate "new subscribers" notifications
 
 ### 1.1
 
--   you can now let users decide which lists they sign up to.
--   smaller fixes and improvements.
+- you can now let users decide which lists they sign up to.
+- smaller fixes and improvements.
 
 ### 1.0.4
 
--   support for Mailster 2.3
+- support for Mailster 2.3
 
 ### 1.0.3
 
--   fixed: status not changed if subscriber already exists
+- fixed: status not changed if subscriber already exists
 
 ### 1.0.2
 
--   removed legacy form option which causes PHP Notice
+- removed legacy form option which causes PHP Notice
 
 ### 1.0.1
 
--   fixed: PHP warnings
+- fixed: PHP warnings
 
 ### 1.0
 
--   initial release
+- initial release
