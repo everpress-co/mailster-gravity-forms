@@ -16,7 +16,7 @@ Requires the Mailster Newsletter plugin and the Gravity Forms plugin
 
 ## Installation
 
-1. Upload plugin files to your plugins folder, or install using WordPress' built-in Add New Plugin installer
+1. Upload the entire `mailster-gravity-forms` folder to the `/wp-content/plugins/` directory, or install using WordPress' built-in Add New Plugin installer
 2. Activate the plugin
 
 ## Frequently Asked Questions
