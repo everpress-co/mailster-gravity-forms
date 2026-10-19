@@ -254,7 +254,20 @@ class MailsterGravitiyForm {
 			return;
 		}
 
-		$form['mailster']  = map_deep( wp_unslash( $_POST['mailster'] ), 'sanitize_text_field' );
+		$form['mailster'] = map_deep( wp_unslash( $_POST['mailster'] ), 'sanitize_text_field' );
+
+		if ( isset( $_POST['mailster']['conditional_field'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- tags stripped; octets must be preserved for GF choice values.
+			$raw_conditional = wp_unslash( $_POST['mailster']['conditional_field'] );
+			if ( is_scalar( $raw_conditional ) ) {
+				$form['mailster']['conditional_field'] = preg_replace(
+					'/[\r\n\t]+/',
+					'',
+					wp_strip_all_tags( (string) $raw_conditional )
+				);
+			}
+		}
+
 		$conditional_field = isset( $form['mailster']['conditional_field'] ) ? $form['mailster']['conditional_field'] : '';
 		$conditional       = explode( '|', $conditional_field );
 
