@@ -1,10 +1,37 @@
 <?php
 
+/**
+ * Connects Gravity Forms submissions to Mailster subscribers.
+ *
+ * @since 1.0
+ */
 class MailsterGravitiyForm {
 
+	/**
+	 * Absolute filesystem path of this plugin.
+	 *
+	 * @since 1.0
+	 *
+	 * @var string
+	 */
 	private $plugin_path;
+
+	/**
+	 * Base URL of this plugin.
+	 *
+	 * @since 1.0
+	 *
+	 * @var string
+	 */
 	private $plugin_url;
 
+	/**
+	 * Registers lifecycle hooks and loads the text domain.
+	 *
+	 * @since 1.0
+	 *
+	 * @return void
+	 */
 	public function __construct() {
 
 		$this->plugin_path = plugin_dir_path( MAILSTER_GRAVITYFORMS_FILE );
@@ -19,10 +46,33 @@ class MailsterGravitiyForm {
 
 	}
 
+	/**
+	 * Fires when the plugin is activated.
+	 *
+	 * @since 1.0
+	 *
+	 * @param bool $network_wide Whether the plugin is being activated network-wide.
+	 * @return void
+	 */
 	public function activate( $network_wide ) {}
 
+	/**
+	 * Fires when the plugin is deactivated.
+	 *
+	 * @since 1.0
+	 *
+	 * @param bool $network_wide Whether the plugin is being deactivated network-wide.
+	 * @return void
+	 */
 	public function deactivate( $network_wide ) {}
 
+	/**
+	 * Registers Gravity Forms hooks for submissions and form settings.
+	 *
+	 * @since 1.0
+	 *
+	 * @return void
+	 */
 	public function init() {
 
 		add_filter( 'gform_after_submission', array( &$this, 'after_submission' ), 10, 2 );
@@ -38,6 +88,17 @@ class MailsterGravitiyForm {
 		}
 	}
 
+	/**
+	 * Creates or updates a Mailster subscriber from a Gravity Forms entry.
+	 *
+	 * Respects the form's list mapping, conditional field, and double opt-in settings.
+	 *
+	 * @since 1.0
+	 *
+	 * @param array $entry Submitted Gravity Forms entry.
+	 * @param array $form  Gravity Forms form meta, including Mailster settings.
+	 * @return void
+	 */
 	public function after_submission( $entry, $form ) {
 
 		// Mailster doesn't exists.
@@ -126,6 +187,13 @@ class MailsterGravitiyForm {
 
 	}
 
+	/**
+	 * Prints the Mailster panel on the Gravity Forms settings screen.
+	 *
+	 * @since 1.0
+	 *
+	 * @return void
+	 */
 	public function settings_page() {
 
 		GFFormSettings::page_header();
@@ -135,6 +203,15 @@ class MailsterGravitiyForm {
 		GFFormSettings::page_footer();
 	}
 
+	/**
+	 * Adds the Mailster tab to a form's settings menu.
+	 *
+	 * @since 1.0
+	 *
+	 * @param array $settings_tabs Existing settings tabs.
+	 * @param int   $form_id       Gravity Forms form ID.
+	 * @return array Settings tabs including the Mailster tab.
+	 */
 	public function settings_menu( $settings_tabs, $form_id ) {
 
 		wp_enqueue_style( 'mailster-gravityforms-style', $this->plugin_url . 'assets/style.css', array(), MAILSTER_GRAVITYFORMS_VERSION );
@@ -147,6 +224,13 @@ class MailsterGravitiyForm {
 		return $settings_tabs;
 	}
 
+	/**
+	 * Saves the posted Mailster settings onto the current Gravity Form.
+	 *
+	 * @since 1.0
+	 *
+	 * @return void
+	 */
 	public function save() {
 
 		if ( ! current_user_can( 'manage_options' ) ) {
