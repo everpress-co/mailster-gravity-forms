@@ -36,6 +36,8 @@ You need [Gravity Forms Plugin](https://rocketgenius.pxf.io/vnPQjW) and the [Mai
 ### Unreleased
 
 - fixed: resubmitting a form for one pending subscriber no longer sends a confirmation email to every pending subscriber
+- fixed: form settings escape field labels and sanitize saved Mailster options
+- fixed: conditional field options no longer start with the stray text "sss"
 
 ### 2.0.0
 

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Gravity Forms integration for Mailster.
+ *
+ * @package Mailster_Gravity_Forms
+ */
 
 /**
  * Connects Gravity Forms submissions to Mailster subscribers.
@@ -43,7 +48,6 @@ class MailsterGravitiyForm {
 		load_plugin_textdomain( 'mailster-gravityforms' );
 
 		add_action( 'plugins_loaded', array( &$this, 'init' ) );
-
 	}
 
 	/**
@@ -79,12 +83,10 @@ class MailsterGravitiyForm {
 
 		if ( is_admin() ) {
 
-			add_filter( 'gform_form_settings_menu', array( &$this, 'settings_menu' ), 10, 2 );
+			add_filter( 'gform_form_settings_menu', array( &$this, 'settings_menu' ) );
 			add_action( 'gform_form_settings_page_mailster', array( &$this, 'settings_page' ) );
 
-			if ( isset( $_POST['gform_save_settings'] ) ) {
-				$this->save();
-			}
+			$this->save();
 		}
 	}
 
@@ -122,10 +124,11 @@ class MailsterGravitiyForm {
 			// radio button.
 			if ( isset( $form['mailster']['conditional_id'] ) ) {
 
-				if ( isset( $entry[ $form['mailster']['conditional_id'] ] ) && ( $entry[ $form['mailster']['conditional_id'] ] != $form['mailster']['conditional_field'] ) ) {
+				$conditional_id = $form['mailster']['conditional_id'];
+				if ( isset( $entry[ $conditional_id ] ) && (string) $entry[ $conditional_id ] !== (string) $form['mailster']['conditional_field'] ) {
 					return;
 				}
-				if ( ! isset( $entry[ $form['mailster']['conditional_id'] ] ) ) {
+				if ( ! isset( $entry[ $conditional_id ] ) ) {
 					return;
 				}
 
@@ -145,7 +148,7 @@ class MailsterGravitiyForm {
 		$list_ids = isset( $form['mailster']['lists'] ) ? (array) $form['mailster']['lists'] : array();
 
 		foreach ( $form['mailster']['map'] as $field_id => $key ) {
-			if ( '_list' == $key ) {
+			if ( '_list' === $key ) {
 				$listname = $entry[ $field_id ];
 				if ( empty( $listname ) ) {
 					continue;
@@ -156,7 +159,7 @@ class MailsterGravitiyForm {
 				} else {
 					$list_ids[] = $list_id;
 				}
-			} elseif ( $key != -1 ) {
+			} elseif ( '-1' !== (string) $key ) {
 				$userdata[ $key ] = $entry[ $field_id ];
 			}
 		}
@@ -165,11 +168,12 @@ class MailsterGravitiyForm {
 			return;
 		}
 
-		if ( $subscriber = mailster( 'subscribers' )->get_by_mail( $userdata['email'] ) ) {
+		$subscriber = mailster( 'subscribers' )->get_by_mail( $userdata['email'] );
+		if ( $subscriber ) {
 			$userdata['ID']          = (int) $subscriber->ID;
 			$userdata['hash']        = $subscriber->hash;
 			$userdata['status']      = $subscriber->status;
-			$subscriber_notification = $subscriber->status == 0; // send again if not confirmed already.
+			$subscriber_notification = 0 === (int) $subscriber->status; // send again if not confirmed already.
 
 			// add() strips the ID on the front end. When the duplicate-key update
 			// changes nothing, insert_id is 0 and send_confirmations() emails every
@@ -184,7 +188,6 @@ class MailsterGravitiyForm {
 		if ( ! is_wp_error( $subscriber_id ) ) {
 			mailster( 'subscribers' )->assign_lists( $subscriber_id, $list_ids, false, $userdata['status'] ? true : false );
 		}
-
 	}
 
 	/**
@@ -209,10 +212,9 @@ class MailsterGravitiyForm {
 	 * @since 1.0
 	 *
 	 * @param array $settings_tabs Existing settings tabs.
-	 * @param int   $form_id       Gravity Forms form ID.
 	 * @return array Settings tabs including the Mailster tab.
 	 */
-	public function settings_menu( $settings_tabs, $form_id ) {
+	public function settings_menu( $settings_tabs ) {
 
 		wp_enqueue_style( 'mailster-gravityforms-style', $this->plugin_url . 'assets/style.css', array(), MAILSTER_GRAVITYFORMS_VERSION );
 
@@ -234,21 +236,27 @@ class MailsterGravitiyForm {
 	public function save() {
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			return; }
+			return;
+		}
 
-		if ( ! isset( $_POST['gform_save_form_settings'] ) || ! wp_verify_nonce( $_POST['gform_save_form_settings'], 'mailster_gf_save_form' ) ) {
-			return; }
+		$nonce = isset( $_POST['gform_save_form_settings'] ) ? sanitize_text_field( wp_unslash( $_POST['gform_save_form_settings'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'mailster_gf_save_form' ) ) {
+			return;
+		}
 
-		$form_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : null;
+		$form_id = isset( $_GET['id'] ) ? absint( wp_unslash( $_GET['id'] ) ) : 0;
 		if ( ! $form_id ) {
-			return; }
+			return;
+		}
 
 		$form = RGFormsModel::get_form_meta( $form_id );
-		if ( ! $form ) {
-			return; }
+		if ( ! $form || ! isset( $_POST['mailster'] ) || ! is_array( $_POST['mailster'] ) ) {
+			return;
+		}
 
-		$form['mailster'] = $_POST['mailster'];
-		$conditional      = explode( '|', $form['mailster']['conditional_field'] );
+		$form['mailster']  = map_deep( wp_unslash( $_POST['mailster'] ), 'sanitize_text_field' );
+		$conditional_field = isset( $form['mailster']['conditional_field'] ) ? $form['mailster']['conditional_field'] : '';
+		$conditional       = explode( '|', $conditional_field );
 
 		if ( count( $conditional ) > 1 ) {
 			$form['mailster']['conditional_id'] = array_shift( $conditional );
@@ -257,6 +265,5 @@ class MailsterGravitiyForm {
 		$form['mailster']['conditional_field'] = implode( '|', $conditional );
 
 		RGFormsModel::update_form_meta( $form_id, $form );
-
 	}
 }
