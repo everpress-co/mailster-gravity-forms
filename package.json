@@ -1,6 +1,6 @@
 {
 	"name": "mailster-gravity-forms",
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"description": "Integrates Mailster Newsletter Plugin with Gravity Forms to subscribe users with a Gravity Form.",
 	"author": "everpress",
 	"license": "GPL-2.0-or-later",

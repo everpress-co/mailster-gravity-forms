@@ -2,8 +2,8 @@
 Contributors: everpress, mailster, xaverb  
 Tags: gravity forms, email marketing, newsletter signup, mailing list, double opt-in
 Requires at least: 6.0  
-Tested up to: 6.5  
-Stable tag: 2.0.0  
+Tested up to: 7.1  
+Stable tag: 2.1.0  
 License: GPLv2 or later
 
 Connect Gravity Forms to Mailster with field mapping, mailing list assignment, conditional signup, and double opt-in.
@@ -82,7 +82,7 @@ The integration updates that subscriber's mapped data and list assignments inste
 
 ## Changelog
 
-### Unreleased
+### 2.1.0
 
 - fixed: resubmitting a form for one pending subscriber no longer sends a confirmation email to every pending subscriber
 - fixed: conditional signup still matches radio choices whose values contain percent-encoded characters
