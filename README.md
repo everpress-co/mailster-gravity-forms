@@ -85,6 +85,7 @@ The integration updates that subscriber's mapped data and list assignments inste
 ### Unreleased
 
 - fixed: resubmitting a form for one pending subscriber no longer sends a confirmation email to every pending subscriber
+- fixed: conditional signup still matches radio choices whose values contain percent-encoded characters
 - fixed: form settings escape field labels and sanitize saved Mailster options
 - fixed: conditional field options no longer start with the stray text "sss"
 
