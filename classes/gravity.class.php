@@ -105,16 +105,20 @@ class MailsterGravitiyForm {
 		}
 
 		if ( $subscriber = mailster( 'subscribers' )->get_by_mail( $userdata['email'] ) ) {
+			$userdata['ID']          = (int) $subscriber->ID;
+			$userdata['hash']        = $subscriber->hash;
 			$userdata['status']      = $subscriber->status;
-			$subscriber_notification = $subscriber->status == 0; // send again if not confirmed already,
+			$subscriber_notification = $subscriber->status == 0; // send again if not confirmed already.
+
+			// add() strips the ID on the front end. When the duplicate-key update
+			// changes nothing, insert_id is 0 and send_confirmations() emails every
+			// pending subscriber. Updating by ID keeps the resend on this subscriber.
+			$subscriber_id = mailster( 'subscribers' )->update( $userdata, true, true, $subscriber_notification );
 		} else {
 			$userdata['status']      = isset( $form['mailster']['double-opt-in'] ) ? 0 : 1;
 			$subscriber_notification = true;
+			$subscriber_id           = mailster( 'subscribers' )->add( $userdata, true, true, $subscriber_notification );
 		}
-
-		$overwrite     = true;
-		$merge         = true;
-		$subscriber_id = mailster( 'subscribers' )->add( $userdata, $overwrite, $merge, $subscriber_notification );
 
 		if ( ! is_wp_error( $subscriber_id ) ) {
 			mailster( 'subscribers' )->assign_lists( $subscriber_id, $list_ids, false, $userdata['status'] ? true : false );

@@ -33,6 +33,10 @@ You need [Gravity Forms Plugin](https://rocketgenius.pxf.io/vnPQjW) and the [Mai
 
 ## Changelog
 
+### Unreleased
+
+- fixed: resubmitting a form for one pending subscriber no longer sends a confirmation email to every pending subscriber
+
 ### 2.0.0
 
 - update for Gravity forms 2.5
