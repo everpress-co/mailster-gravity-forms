@@ -1,4 +1,9 @@
 <?php
+/**
+ * Mailster settings panel for a Gravity Form.
+ *
+ * @package Mailster_Gravity_Forms
+ */
 
 if ( ! function_exists( 'mailster' ) ) {
 
@@ -7,9 +12,9 @@ if ( ! function_exists( 'mailster' ) ) {
 	return;
 }
 
-$form_id  = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : null;
-$form     = RGFormsModel::get_form_meta( $form_id );
-$mailster = isset( $form['mailster'] ) ? $form['mailster'] : array(
+$mailster_form_id = absint( filter_input( INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT ) );
+$mailster_form    = RGFormsModel::get_form_meta( $mailster_form_id );
+$mailster         = isset( $mailster_form['mailster'] ) ? $mailster_form['mailster'] : array(
 	'lists'             => array(),
 	'map'               => array(),
 	'conditional_field' => null,
@@ -38,38 +43,37 @@ $mailster = isset( $form['mailster'] ) ? $form['mailster'] : array(
 					<?php esc_html_e( 'Mailster can create lists if certain fields are checked or not empty.', 'mailster-gravityforms' ); ?>
 				</p>
 				<?php
-				$fields = array(
+				$mailster_fields = array(
 					'email'     => mailster_text( 'email' ),
 					'firstname' => mailster_text( 'firstname' ),
 					'lastname'  => mailster_text( 'lastname' ),
 				);
 
-				if ( $customfields = mailster()->get_custom_fields() ) {
-					foreach ( $customfields as $field => $data ) {
-						$fields[ $field ] = $data['name'];
+				$mailster_custom_fields = mailster()->get_custom_fields();
+				if ( $mailster_custom_fields ) {
+					foreach ( $mailster_custom_fields as $mailster_field_key => $mailster_field_data ) {
+						$mailster_fields[ $mailster_field_key ] = $mailster_field_data['name'];
 					}
 				}
-				$optionsdd = '<option value="-1">' . esc_html__( 'choose', 'mailster-gravityforms' ) . '</option>';
-				foreach ( $fields as $id => $name ) {
-					$optionsdd .= '<option value="' . $id . '">' . $name . '</option>';
-				}
 
-				if ( is_array( $form['fields'] ) && ! empty( $form['fields'] ) ) {
+				if ( is_array( $mailster_form['fields'] ) && ! empty( $mailster_form['fields'] ) ) {
 					echo '<ul id="mailster-map">';
-					foreach ( $form['fields'] as $field ) {
-						if ( isset( $field['inputs'] ) && is_array( $field['inputs'] ) ) {
-							echo '<li><strong>' . ( ! empty( $field['label'] ) ? $field['label'] : esc_html__( 'Untitled', 'mailster-gravityforms' ) ) . ':</strong><ul>';
+					foreach ( $mailster_form['fields'] as $mailster_field ) {
+						if ( isset( $mailster_field['inputs'] ) && is_array( $mailster_field['inputs'] ) ) {
+							$mailster_group_label = ! empty( $mailster_field['label'] ) ? $mailster_field['label'] : __( 'Untitled', 'mailster-gravityforms' );
+							echo '<li><strong>' . esc_html( $mailster_group_label ) . ':</strong><ul>';
 
-							foreach ( $field['inputs'] as $input ) {
-								echo '<li><label>' . $input['label'] . '</label> ➨ <select name="mailster[map][' . $input['id'] . ']" >';
+							foreach ( $mailster_field['inputs'] as $mailster_input ) {
+								$mailster_mapped_input = isset( $mailster['map'][ $mailster_input['id'] . '' ] ) ? $mailster['map'][ $mailster_input['id'] . '' ] : '';
+								echo '<li><label>' . esc_html( $mailster_input['label'] ) . '</label> ➨ <select name="mailster[map][' . esc_attr( $mailster_input['id'] ) . ']" >';
 								echo '<option value="-1">' . esc_html__( 'not mapped', 'mailster-gravityforms' ) . '</option>';
-								echo '<optgroup label="' . esc_html__( 'Fields', 'mailster-gravityforms' ) . '">';
-								foreach ( $fields as $id => $name ) {
-									echo '<option value="' . $id . '" ' . selected( $id, @$mailster['map'][ $input['id'] . '' ], false ) . '>' . $name . '</option>';
+								echo '<optgroup label="' . esc_attr__( 'Fields', 'mailster-gravityforms' ) . '">';
+								foreach ( $mailster_fields as $mailster_field_key => $mailster_field_name ) {
+									echo '<option value="' . esc_attr( $mailster_field_key ) . '" ' . selected( $mailster_field_key, $mailster_mapped_input, false ) . '>' . esc_html( $mailster_field_name ) . '</option>';
 								}
 								echo '</optgroup>';
-								echo '<optgroup label="' . esc_html__( 'List specific', 'mailster-gravityforms' ) . '">';
-								echo '<option value="_list" ' . selected( '_list', @$mailster['map'][ $input['id'] . '' ], false ) . '>' . esc_html__( 'Add to List if checked or not empty', 'mailster-gravityforms' ) . '</option>';
+								echo '<optgroup label="' . esc_attr__( 'List specific', 'mailster-gravityforms' ) . '">';
+								echo '<option value="_list" ' . selected( '_list', $mailster_mapped_input, false ) . '>' . esc_html__( 'Add to List if checked or not empty', 'mailster-gravityforms' ) . '</option>';
 								echo '</optgroup>';
 								echo '</select></li>';
 							}
@@ -77,15 +81,16 @@ $mailster = isset( $form['mailster'] ) ? $form['mailster'] : array(
 							echo '</ul></li>';
 
 						} else {
-							echo '<li> <label><strong>' . $field['label'] . '</strong></label> ➨ <select name="mailster[map][' . $field['id'] . ']">';
+							$mailster_mapped_field = isset( $mailster['map'][ $mailster_field['id'] . '' ] ) ? $mailster['map'][ $mailster_field['id'] . '' ] : '';
+							echo '<li> <label><strong>' . esc_html( $mailster_field['label'] ) . '</strong></label> ➨ <select name="mailster[map][' . esc_attr( $mailster_field['id'] ) . ']">';
 							echo '<option value="-1">' . esc_html__( 'not mapped', 'mailster-gravityforms' ) . '</option>';
-							echo '<optgroup label="' . esc_html__( 'Fields', 'mailster-gravityforms' ) . '">';
-							foreach ( $fields as $id => $name ) {
-								echo '<option value="' . $id . '" ' . selected( $id, @$mailster['map'][ $field['id'] . '' ], false ) . '>' . $name . '</option>';
+							echo '<optgroup label="' . esc_attr__( 'Fields', 'mailster-gravityforms' ) . '">';
+							foreach ( $mailster_fields as $mailster_field_key => $mailster_field_name ) {
+								echo '<option value="' . esc_attr( $mailster_field_key ) . '" ' . selected( $mailster_field_key, $mailster_mapped_field, false ) . '>' . esc_html( $mailster_field_name ) . '</option>';
 							}
 							echo '</optgroup>';
-							echo '<optgroup label="' . esc_html__( 'List specific', 'mailster-gravityforms' ) . '">';
-								echo '<option value="_list" ' . selected( '_list', @$mailster['map'][ $field['id'] . '' ], false ) . '>' . esc_html__( 'Add to List if checked or not empty', 'mailster-gravityforms' ) . '</option>';
+							echo '<optgroup label="' . esc_attr__( 'List specific', 'mailster-gravityforms' ) . '">';
+								echo '<option value="_list" ' . selected( '_list', $mailster_mapped_field, false ) . '>' . esc_html__( 'Add to List if checked or not empty', 'mailster-gravityforms' ) . '</option>';
 							echo '</optgroup>';
 							echo '</select></li>';
 						}
@@ -103,8 +108,8 @@ $mailster = isset( $form['mailster'] ) ? $form['mailster'] : array(
 				<th><?php esc_html_e( 'Subscribe new users to', 'mailster-gravityforms' ); ?></th>
 				<td>
 				<?php
-				$selected = isset( $mailster['lists'] ) ? $mailster['lists'] : array();
-				mailster( 'lists' )->print_it( null, null, $name = 'mailster[lists]', false, $selected );
+				$mailster_selected_lists = isset( $mailster['lists'] ) ? $mailster['lists'] : array();
+				mailster( 'lists' )->print_it( null, null, 'mailster[lists]', false, $mailster_selected_lists );
 				?>
 				</td>
 			</tr>
@@ -120,27 +125,30 @@ $mailster = isset( $form['mailster'] ) ? $form['mailster'] : array(
 				<td><label><input type="checkbox" name="mailster[conditional]" value="1" <?php checked( isset( $mailster['conditional'] ) ); ?>> <?php esc_html_e( 'Enable Conditional check', 'mailster-gravityforms' ); ?></label>
 				<p><?php esc_html_e( 'subscribe user only if', 'mailster-gravityforms' ); ?>
 				<?php
-				if ( is_array( $form['fields'] ) ) {
+				if ( is_array( $mailster_form['fields'] ) ) {
 					echo '<select name="mailster[conditional_field]"><option value="-1">-</option>';
-					foreach ( $form['fields'] as $field ) {
-						if ( ! in_array( $field['type'], array( 'checkbox', 'radio' ) ) ) {
+					foreach ( $mailster_form['fields'] as $mailster_field ) {
+						if ( ! in_array( $mailster_field['type'], array( 'checkbox', 'radio' ), true ) ) {
 							continue;
 						}
 
-						if ( isset( $field['inputs'] ) && is_array( $field['inputs'] ) ) {
-							echo '<optgroup label="' . ( $field['label'] ? $field['label'] : esc_html__( 'Checkbox', 'mailster-gravityforms' ) ) . '">';
-							foreach ( $field['inputs'] as $input ) {
-								echo '<option value="' . $input['id'] . '" ' . selected( $input['id'], $mailster['conditional_field'], false ) . '>' . $input['label'] . '</option>'; }
+						if ( isset( $mailster_field['inputs'] ) && is_array( $mailster_field['inputs'] ) ) {
+							$mailster_group_label = $mailster_field['label'] ? $mailster_field['label'] : __( 'Checkbox', 'mailster-gravityforms' );
+							echo '<optgroup label="' . esc_attr( $mailster_group_label ) . '">';
+							foreach ( $mailster_field['inputs'] as $mailster_input ) {
+								echo '<option value="' . esc_attr( $mailster_input['id'] ) . '" ' . selected( $mailster_input['id'], $mailster['conditional_field'], false ) . '>' . esc_html( $mailster_input['label'] ) . '</option>';
+							}
 							echo '</optgroup>';
 
-						} elseif ( isset( $field['choices'] ) && is_array( $field['choices'] ) ) {
-							echo '<optgroup label="' . $field['label'] . '">';
-							foreach ( $field['choices'] as $input ) {
-								echo '<option value="' . $field['id'] . '|' . $input['value'] . '" ' . selected( $input['value'], $mailster['conditional_field'], false ) . '>' . $input['text'] . '</option>'; }
+						} elseif ( isset( $mailster_field['choices'] ) && is_array( $mailster_field['choices'] ) ) {
+							echo '<optgroup label="' . esc_attr( $mailster_field['label'] ) . '">';
+							foreach ( $mailster_field['choices'] as $mailster_input ) {
+								echo '<option value="' . esc_attr( $mailster_field['id'] . '|' . $mailster_input['value'] ) . '" ' . selected( $mailster_input['value'], $mailster['conditional_field'], false ) . '>' . esc_html( $mailster_input['text'] ) . '</option>';
+							}
 							echo '</optgroup>';
 
 						} else {
-							echo '<option value="' . $field['id'] . '" ' . selected( $input['id'], $mailster['conditional_field'], false ) . '>sss' . $field['label'] . '</option>';
+							echo '<option value="' . esc_attr( $mailster_field['id'] ) . '" ' . selected( $mailster_field['id'], $mailster['conditional_field'], false ) . '>' . esc_html( $mailster_field['label'] ) . '</option>';
 						}
 					}
 					echo '</select>';
