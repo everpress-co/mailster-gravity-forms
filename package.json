@@ -14,10 +14,10 @@
 	"homepage": "https://mailster.co",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/evrpress/mailster-gravity-forms.git"
+		"url": "https://github.com/everpress-co/mailster-gravity-forms.git"
 	},
 	"bugs": {
-		"url": "https://github.com/evrpress/mailster-gravity-forms/issues"
+		"url": "https://github.com/everpress-co/mailster-gravity-forms/issues"
 	},
 	"files": [
 		"mailster-gravity-forms.php",
